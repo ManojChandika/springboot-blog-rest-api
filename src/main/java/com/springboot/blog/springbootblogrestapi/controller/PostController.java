@@ -1,13 +1,12 @@
 package com.springboot.blog.springbootblogrestapi.controller;
 
 import com.springboot.blog.springbootblogrestapi.dto.PostDTO;
+import com.springboot.blog.springbootblogrestapi.dto.PostResponse;
 import com.springboot.blog.springbootblogrestapi.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "api/posts")
@@ -23,9 +22,11 @@ public class PostController {
 
     //Get All Posts
     @GetMapping
-    public ResponseEntity<List<PostDTO>> getAllPosts(){
-//        return new ResponseEntity<>(postService.getAllPosts(), HttpStatus.ACCEPTED);
-        return ResponseEntity.ok(postService.getAllPosts());
+    public PostResponse getAllPosts(
+            @RequestParam(value="pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value="pageSize", defaultValue = "10", required = false) int pageSize
+    ){
+        return postService.getAllPosts(pageNo,pageSize);
     }
 
     // Get Post by Id
