@@ -6,6 +6,7 @@ import com.springboot.blog.springbootblogrestapi.entity.Post;
 import com.springboot.blog.springbootblogrestapi.exception.ResourceNotFoundException;
 import com.springboot.blog.springbootblogrestapi.repo.PostRepository;
 import com.springboot.blog.springbootblogrestapi.service.PostService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
@@ -22,6 +23,8 @@ import java.util.stream.Collectors;
 public class PostControllerImpl implements PostService {
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private ModelMapper modelMapper;
 
     // Create Blog post rest API
     @Override
@@ -85,21 +88,23 @@ public class PostControllerImpl implements PostService {
 
     // Convert DTO into Entity
     private Post mapToEntity(PostDTO postDTO){
-        Post post= new Post();
-        post.setId(postDTO.getId());
-        post.setTitle(postDTO.getTitle());
-        post.setContent(postDTO.getContent());
-        post.setDescription(postDTO.getDescription());
+        Post post= modelMapper.map(postDTO,Post.class);
+//        Post post= new Post();
+//        post.setId(postDTO.getId());
+//        post.setTitle(postDTO.getTitle());
+//        post.setContent(postDTO.getContent());
+//        post.setDescription(postDTO.getDescription());
         return post;
     }
 
     // Convert Entity into DTO
     private PostDTO mapToDTO(Post post){
-        PostDTO postDTO = new PostDTO();
-        postDTO.setId(post.getId());
-        postDTO.setTitle(post.getTitle());
-        postDTO.setContent(post.getContent());
-        postDTO.setDescription(post.getDescription());
+        PostDTO postDTO = modelMapper.map(post, PostDTO.class);
+//        PostDTO postDTO = new PostDTO();
+//        postDTO.setId(post.getId());
+//        postDTO.setTitle(post.getTitle());
+//        postDTO.setContent(post.getContent());
+//        postDTO.setDescription(post.getDescription());
         return postDTO;
     }
 }
